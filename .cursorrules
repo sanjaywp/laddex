@@ -1,0 +1,272 @@
+# Digital Marketing Services Website Design System & Build Rules
+
+## Project Policy (Very Important)
+- **Tech Stack**: Pure **Tailwind CSS** (no Bootstrap or other CSS frameworks)
+- **Tailwind CSS**: Use Tailwind CSS via CDN or build process. Include Tailwind CSS in `<head>` or use build process with `input.css` and `output.css`
+- **Custom CSS**: If needed, create custom CSS in `/assets/css/custom.css` or extend Tailwind via `tailwind.config.js` and `input.css`
+- **No inline styles** unless unavoidable (and documented)
+- Use Tailwind CSS custom colors, spacing, and design tokens via `tailwind.config.js`
+- Follow Tailwind CSS utility-first approach; use component classes only when necessary
+
+---
+
+## Foundations
+**Fonts**
+- Primary: `Poppins, sans-serif` (modern, clean sans-serif)
+- Configure in `tailwind.config.js`: `fontFamily: { sans: ['Poppins', 'system-ui', 'sans-serif'] }`
+- Fallbacks: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`
+
+**Colors** (Configure in `tailwind.config.js` or use Tailwind's color palette)
+- Primary: Teal/Green accent (CTAs, active, highlights) - `#14B8A6` (teal-500) or `#10B981` (emerald-500)
+- Secondary: Dark blue/gray (headings, nav, footer, body text on light BG) - `#1E293B` (slate-800) or `#0F172A` (slate-900)
+- Accent: Green/Teal gradient for CTAs and highlights - Use `bg-gradient-to-r from-teal-500 to-emerald-500`
+- Neutrals:
+  - Background: `#FFFFFF` (white)
+  - Body Text: `#334155` (slate-700) or `#475569` (slate-600)
+  - Secondary Text: `#64748B` (slate-500)
+  - Dividers/Borders: `#E2E8F0` (slate-200)
+- Feedback (Tailwind colors):
+  - Success: `#10B981` (emerald-500)
+  - Danger/Error: `#EF4444` (red-500)
+  - Warning: `#F59E0B` (amber-500)
+  - Info: `#3B82F6` (blue-500)
+
+**Typography Scale**
+- H1: `text-5xl font-bold` (45px / bold) or custom via `tailwind.config.js`
+- H2: `text-4xl font-semibold` (36px / semibold)
+- H3: `text-3xl font-semibold` (32px / semibold)
+- Body: `text-base` (16px / regular)
+- Caption: `text-sm` (14px / regular)
+
+**Layout & Spacing**
+- Grid: Use Tailwind's flexbox and grid utilities (`flex`, `grid`, `grid-cols-*`)
+- Container: Use `container` class (Tailwind's responsive container) or `max-w-*` utilities
+- Max container: Use `container mx-auto` or `max-w-7xl mx-auto` for centered content
+- Spacing: Use Tailwind spacing utilities (`m-*`, `p-*`, `mt-*`, `mb-*`, etc.) based on Tailwind's spacing scale (0.25rem = 4px base)
+- Corner radius: Use `rounded-lg` (8px) to `rounded-xl` (12px) for cards, inputs, buttons, modals
+
+---
+
+## Responsiveness Rules
+- **Mobile-first** design. Use Tailwind's responsive utility classes with breakpoint prefixes
+- **Tailwind CSS Breakpoints** (use with prefixes like `sm:`, `md:`, `lg:`, etc.):
+  - **default**: <640px (mobile, no prefix needed)
+  - **sm**: ≥640px (small devices)
+  - **md**: ≥768px (tablets)
+  - **lg**: ≥1024px (desktops)
+  - **xl**: ≥1280px (large desktops)
+  - **2xl**: ≥1536px (extra large desktops)
+- **Mobile** (<640px):
+  - Stack layouts vertically (use `flex-col` or single column grid)
+  - Full-width buttons and inputs (use `w-full`)
+  - Collapse nav into hamburger menu (use JavaScript toggle with `hidden`/`block` classes)
+  - Images responsive with `w-full h-auto` or `object-cover`
+  - Single column service cards and testimonials (`grid-cols-1`)
+- **Tablet** (≥768px, `md:`):
+  - 2-column service/feature grids (use `md:grid-cols-2`)
+  - Navbar expanded or collapsible (use `md:flex` for desktop nav)
+  - Larger tap targets (min height 44px with `min-h-[44px]`)
+  - 2-column testimonial and portfolio grids (use `md:grid-cols-2`)
+- **Desktop** (≥1024px, `lg:` and above):
+  - 3–4 column service/feature grids (use `lg:grid-cols-3` or `lg:grid-cols-4`)
+  - Full navigation visible (use `lg:flex` for desktop nav)
+  - Container max-width responsive (use `container` or `max-w-7xl`)
+  - Multi-column layouts for statistics, services, and portfolio (use `lg:grid-cols-*`)
+
+---
+
+## Components (Tailwind CSS Utilities + Custom Classes)
+**Buttons**
+- Primary: Use `bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-full font-medium transition-colors`
+- Secondary: Use `bg-slate-800 hover:bg-slate-900 text-white px-6 py-3 rounded-full font-medium transition-colors`
+- Outline: Use `border-2 border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white px-6 py-3 rounded-full font-medium transition-colors`
+- Gradient CTA: Use `bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white px-6 py-3 rounded-full font-medium transition-all`
+- Sizes: `px-4 py-2 text-sm` (small), `px-8 py-4 text-lg` (large)
+- Disabled: Use `opacity-50 cursor-not-allowed`
+- Full width: `w-full` on mobile, `md:w-auto` on desktop
+
+**Navbar**
+- Use Tailwind flexbox utilities: `flex items-center justify-between`
+- Sticky: Add `sticky top-0 z-50` classes
+- Top bar: Custom dark bar above main navbar (use `bg-slate-900 text-white`)
+- Main nav: Use `bg-white shadow-sm` or `bg-slate-50`
+- Mobile: Custom hamburger menu button with JavaScript toggle (use `lg:hidden` for mobile button, `hidden lg:flex` for desktop nav)
+- Navigation: Use `flex items-center space-x-6` for nav links
+- CTA button: Add gradient button inside navbar
+- Use classes: `flex`, `items-center`, `justify-between`, `space-x-*`, `hidden`, `lg:flex`
+
+**Breadcrumbs**
+- Use Tailwind utilities: `flex items-center space-x-2 text-sm text-slate-600`
+- Custom styling: Use Tailwind typography and spacing utilities
+
+**Service Card**
+- Use Tailwind card structure: `bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow p-6`
+- Structure: Card container > Image > Card body > Title > Description > CTA button
+- Grid: Use Tailwind grid (`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6`)
+- Hover: Use `hover:-translate-y-1 hover:shadow-xl transition-all duration-300`
+- Use classes: `bg-white`, `rounded-xl`, `shadow-md`, `p-6`, `hover:shadow-xl`, `transition-all`
+
+**Forms**
+- Use Tailwind form utilities: `w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500`
+- Form groups: Use `mb-4` or `mb-6` for spacing
+- Labels: Use `block text-sm font-medium text-slate-700 mb-2`
+- Validation: Use `border-red-500` for errors, `border-green-500` for success
+- Layout: Use `grid grid-cols-1 md:grid-cols-2 gap-4` for side-by-side inputs on desktop
+- Custom styling: Use Tailwind border-radius and focus utilities
+- Use classes: `w-full`, `px-4`, `py-3`, `border`, `rounded-lg`, `focus:ring-2`, `focus:ring-teal-500`
+
+**Feedback**
+- Toasts: Create custom toast component with Tailwind utilities (`fixed top-4 right-4 bg-white shadow-lg rounded-lg p-4`)
+- Modals: Create custom modal with Tailwind (`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50`)
+- Alerts: Use `bg-red-50 border border-red-200 text-red-800 rounded-lg p-4` for error alerts
+- Use Tailwind utilities for positioning, colors, and animations
+
+**Loading**
+- Use Tailwind spinner: `animate-spin rounded-full h-8 w-8 border-b-2 border-teal-500`
+- Skeleton loaders: Use `animate-pulse bg-slate-200 rounded` classes
+
+**Statistics/Metrics Cards**
+- Use Tailwind card utilities: `bg-white rounded-xl shadow-md p-6 text-center`
+- Grid: Use `grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4` (customize for 5 columns on desktop)
+- Typography: Use `text-4xl md:text-5xl font-bold text-teal-500` for large numbers
+- Use classes: `bg-white`, `rounded-xl`, `shadow-md`, `p-6`, `text-center`
+
+**Tech Capabilities Tags**
+- Use Tailwind badge utilities: `px-4 py-2 border-2 border-teal-500 text-teal-500 rounded-full text-sm font-medium hover:bg-teal-500 hover:text-white transition-colors`
+- Responsive: Use `flex flex-wrap gap-2` for wrapping
+- Spacing: Use `gap-2` or `gap-3` for consistent spacing
+- Use classes: `px-4`, `py-2`, `border-2`, `border-teal-500`, `rounded-full`, `flex`, `flex-wrap`
+
+**Comparison Table**
+- Use Tailwind table utilities: `w-full border-collapse`
+- Striped rows: Use `even:bg-slate-50`
+- Bordered: Use `border border-slate-200`
+- Responsive: Wrap in `overflow-x-auto` for mobile scrolling
+- Use classes: `w-full`, `border-collapse`, `border`, `even:bg-slate-50`
+
+**Testimonials**
+- Use Tailwind card utilities: `bg-white rounded-xl shadow-md p-6`
+- Grid: Use `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6`
+- Use classes: `bg-white`, `rounded-xl`, `shadow-md`, `p-6`, `blockquote` styling with Tailwind
+
+**Pricing/Packages Cards**
+- Use Tailwind card utilities: `bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow p-8`
+- Feature lists: Use `<ul class="space-y-3 mb-6">` with list items
+- CTA: Use gradient button for "Get Quote" buttons
+- Hover: Use `hover:-translate-y-1 hover:shadow-xl transition-all duration-300`
+- Use classes: `bg-white`, `rounded-xl`, `shadow-md`, `p-8`, `hover:shadow-xl`
+
+**FAQ Accordion**
+- Use Tailwind utilities with JavaScript for accordion functionality
+- Structure: Accordion container > Accordion item > Button (header) > Collapsible content
+- Use `border-b border-slate-200` for item borders
+- Use `hidden`/`block` or `max-h-0`/`max-h-screen` with transitions for collapse
+- Button: Use `w-full flex items-center justify-between p-4 text-left`
+- Content: Use `p-4 text-slate-600` for accordion body
+
+---
+
+## Accessibility
+- Text contrast ≥ 4.5:1 (use Tailwind's color palette which meets WCAG standards)
+- Fully tabbable + visible focus states (use `focus:ring-2 focus:ring-teal-500 focus:outline-none`)
+- Alt text required for images
+- Form errors displayed inline + summary
+- Keyboard: all interactive elements focusable (use `focus:ring-*` utilities)
+
+---
+
+## Interaction & Motion
+- Transitions: Use Tailwind's `transition-all duration-300 ease-in-out`
+- Hover: Use `hover:underline hover:underline-offset-4` for links, `hover:shadow-lg` for cards
+- Hover on links: Use `hover:text-teal-500` for color shift
+- Card hover: Use `hover:-translate-y-1 hover:shadow-xl transition-all duration-300`
+- Smooth scroll behavior: Use `scroll-smooth` class on `<html>` element
+- Respect `prefers-reduced-motion`: Use `motion-safe:` prefix for animations
+
+---
+
+## Code Conventions
+- Semantic HTML (`<header>`, `<main>`, `<nav>`, `<section>`, `<article>`, `<aside>`, `<footer>`)
+- Use Tailwind utility classes first (`flex`, `mb-4`, `text-center`, etc.)
+- CSS class naming: Use Tailwind utility classes; follow BEM methodology only for custom component classes when necessary
+- Extract **reusable components** as partials/fragments if using a templating system later
+- Common sections: Hero, Who We Are, Statistics, Services, Tech Capabilities, Awards, Industries, Recent Work, Process, Comparison Table, Testimonials, Pricing, Blog, FAQs, CTA Banner, Footer
+
+---
+
+## File Structure
+- **Assets**: `/assets/css/`, `/assets/js/`, `/assets/images/`
+- **CSS**: Main Tailwind input file at `/assets/css/input.css` (with `@tailwind` directives)
+- **CSS Output**: Compiled Tailwind CSS at `/assets/css/output.css` (generated from `input.css`)
+- **Config**: Tailwind configuration at `/tailwind.config.js` (for custom colors, fonts, spacing, etc.)
+- **Custom CSS**: Additional custom styles at `/assets/css/custom.css` (if needed, use sparingly)
+- **Components**: Organize reusable HTML components
+- **Pages**: Keep main pages in root, sub-pages in `/pages/` if needed
+
+---
+
+## Coding Standards
+
+### CSS
+- **Use Tailwind CSS utility classes first**, then extend via `tailwind.config.js` or `input.css` if needed
+- Configure custom colors, fonts, and spacing in `tailwind.config.js` using the `theme` object
+- Avoid using !important - use proper Tailwind utilities or increase specificity
+- Use Tailwind's spacing utilities (`m-*`, `p-*`) instead of custom spacing when possible
+- Follow Tailwind's utility-first approach; use component classes only when necessary
+- Use Tailwind's flexbox and grid utilities for layouts (`flex`, `grid`, `grid-cols-*`)
+- Organize custom CSS with comments for sections (Custom Components, Utilities) if using `custom.css`
+- Use Tailwind's responsive breakpoints in custom CSS: `@media (min-width: 640px)`, `@media (min-width: 768px)`, etc.
+
+### HTML
+- Use semantic HTML elements (`<header>`, `<main>`, `<nav>`, `<section>`, `<footer>`)
+- Include Tailwind CSS in `<head>`: 
+  - CDN: `<script src="https://cdn.tailwindcss.com"></script>` (for development)
+  - Or compiled: `<link href="/assets/css/output.css" rel="stylesheet">` (for production)
+- Use Tailwind utility classes for all styling
+- Maintain accessibility with proper ARIA labels and semantic HTML
+- Keep markup clean and minimal
+- No inline styles unless unavoidable (and documented)
+
+### JavaScript
+- Use modern ES6+ syntax
+- Prefer const and let over var
+- Use arrow functions where appropriate
+- Handle errors gracefully
+- Use the same HTML structure for both desktop and mobile
+- Toggle visibility/behavior via JavaScript with Tailwind classes (`hidden`, `block`, `flex`, etc.)
+
+### Icons
+- Use inline SVG icons instead of external icon libraries
+- Keep SVG code clean and optimized
+- Use consistent icon sizing and styling with Tailwind utilities (`w-5 h-5`, `w-6 h-6`, etc.)
+
+### Performance
+- Optimize images and assets
+- Minimize HTTP requests
+- Use Tailwind's purging/content configuration to remove unused CSS in production
+- Lazy load non-critical resources
+- Mobile-first approach with progressive enhancement
+
+### Tailwind Configuration
+- Configure custom colors in `tailwind.config.js`:
+```javascript
+theme: {
+  extend: {
+    colors: {
+      primary: '#14B8A6',
+      secondary: '#1E293B',
+    }
+  }
+}
+```
+- Configure custom fonts in `tailwind.config.js`:
+```javascript
+theme: {
+  extend: {
+    fontFamily: {
+      sans: ['Poppins', 'system-ui', 'sans-serif'],
+    }
+  }
+}
+```
+- Use `content` array in `tailwind.config.js` to specify which files to scan for classes
