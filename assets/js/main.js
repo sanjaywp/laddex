@@ -5,38 +5,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuIcon = document.getElementById('menu-icon');
     const closeIcon = document.getElementById('close-icon');
 
-    if (mobileMenuButton && mainMenu && menuIcon && closeIcon) {
+    // Ensure menu is hidden by default on mobile
+    if (window.innerWidth < 1024) {
+        mainMenu.classList.add('hidden');
+    }
+
+    if (mobileMenuButton && mainMenu) {
         mobileMenuButton.addEventListener('click', function() {
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            
             // Toggle menu visibility
             mainMenu.classList.toggle('hidden');
             
-            // Toggle menu layout (mobile vs desktop)
-            if (mainMenu.classList.contains('hidden')) {
-                // Menu is hidden - show hamburger icon
-                mainMenu.classList.remove('flex-col', 'space-y-4', 'mt-4', 'pb-4', 'w-full');
-                mainMenu.classList.add('lg:flex', 'items-center', 'space-x-6');
-                menuIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-                mobileMenuButton.setAttribute('aria-expanded', 'false');
-            } else {
-                // Menu is visible - show close icon and mobile layout
-                mainMenu.classList.remove('lg:flex', 'items-center', 'space-x-6');
-                mainMenu.classList.add('flex-col', 'space-y-4', 'mt-4', 'pb-4', 'w-full');
-                menuIcon.classList.add('hidden');
-                closeIcon.classList.remove('hidden');
-                mobileMenuButton.setAttribute('aria-expanded', 'true');
-            }
+            // Toggle icons
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+            
+            // Update aria-expanded
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
         });
 
-        // Close menu when clicking on a link (mobile only)
+        // Close menu when clicking on a link (mobile)
         const menuLinks = mainMenu.querySelectorAll('a');
         menuLinks.forEach(link => {
             link.addEventListener('click', function() {
-                // Only close menu on mobile screens
                 if (window.innerWidth < 1024) {
                     mainMenu.classList.add('hidden');
-                    mainMenu.classList.remove('flex-col', 'space-y-4', 'mt-4', 'pb-4', 'w-full');
-                    mainMenu.classList.add('lg:flex', 'items-center', 'space-x-6');
                     menuIcon.classList.remove('hidden');
                     closeIcon.classList.add('hidden');
                     mobileMenuButton.setAttribute('aria-expanded', 'false');
@@ -44,23 +38,21 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Handle window resize - reset menu state on desktop
+        // Handle window resize to ensure menu state is correct
         window.addEventListener('resize', function() {
             if (window.innerWidth >= 1024) {
-                // Desktop view - ensure menu is visible with desktop layout
-                mainMenu.classList.remove('hidden', 'flex-col', 'space-y-4', 'mt-4', 'pb-4', 'w-full');
-                mainMenu.classList.add('lg:flex', 'items-center', 'space-x-6');
+                // On desktop, ensure menu is visible (lg:flex will handle this via CSS)
+                // Remove hidden class so lg:flex can work
+                mainMenu.classList.remove('hidden');
                 menuIcon.classList.remove('hidden');
                 closeIcon.classList.add('hidden');
                 mobileMenuButton.setAttribute('aria-expanded', 'false');
             } else {
-                // Mobile view - hide menu by default
-                if (!mainMenu.classList.contains('hidden')) {
-                    mainMenu.classList.add('hidden');
-                    menuIcon.classList.remove('hidden');
-                    closeIcon.classList.add('hidden');
-                    mobileMenuButton.setAttribute('aria-expanded', 'false');
-                }
+                // On mobile, always hide menu when resizing from desktop
+                mainMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
             }
         });
     }

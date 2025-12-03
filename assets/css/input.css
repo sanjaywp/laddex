@@ -1,48 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+/* 1. Import Google Fonts FIRST */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;700&display=swap");
+
+/* 2. Then import Tailwind */
 @import "tailwindcss";
 
+/* 3. Add custom fonts to @theme */
 @theme {
-  /* Font Family */
-  --font-family-sans: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  
-  /* Primary Colors - Teal/Green accent */
-  --color-primary-50: #F0FDFA;
-  --color-primary-100: #CCFBF1;
-  --color-primary-200: #99F6E4;
-  --color-primary-300: #5EEAD4;
-  --color-primary-400: #2DD4BF;
-  --color-primary-500: #14B8A6;
-  --color-primary-600: #0D9488;
-  --color-primary-700: #0F766E;
-  --color-primary-800: #115E59;
-  --color-primary-900: #134E4A;
-  --color-primary: #14B8A6;
-  
-  /* Secondary Colors - Dark blue/gray */
-  --color-secondary-50: #F8FAFC;
-  --color-secondary-100: #F1F5F9;
-  --color-secondary-200: #E2E8F0;
-  --color-secondary-300: #CBD5E1;
-  --color-secondary-400: #94A3B8;
-  --color-secondary-500: #64748B;
-  --color-secondary-600: #475569;
-  --color-secondary-700: #334155;
-  --color-secondary-800: #1E293B;
-  --color-secondary-900: #0F172A;
-  --color-secondary: #1E293B;
-  
-  /* Accent Colors */
-  --color-accent-teal: #14B8A6;
-  --color-accent-emerald: #10B981;
-  
-  /* Feedback Colors */
-  --color-success: #10B981;
-  --color-danger: #EF4444;
-  --color-warning: #F59E0B;
-  --color-info: #3B82F6;
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --color-primary: #134e69;   
+  --color-secondary: #000;
 }
 
-/* Universal Selector - Apply Poppins font globally */
-* {
-  font-family: "Plus Jakarta Sans", sans-serif;
+/* 4. Apply globally */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-heading;
 }
+
+body {
+  /* @apply font-body; */
+  @apply font-heading;
+}
+
+/* Navigation Menu Styles */
+#main-menu {
+  @apply hidden lg:flex items-center space-x-8 lg:bg-transparent bg-slate-200 lg:static absolute top-full left-0 w-full lg:w-auto flex-col lg:flex-row py-4 lg:py-0;
+}
+
+/* Show menu on mobile when toggled (when hidden class is removed) */
+@media (max-width: 1023px) {
+  #main-menu:not(.hidden) {
+    display: flex !important;
+  }
+}
+
+#main-menu > li {
+  @apply relative;
+}
+
+#main-menu > li > a {
+  @apply text-black hover:text-primary transition-colors text-sm;
+}
+
+/* Dropdown links */
+#main-menu > li.group > a {
+  @apply text-black hover:text-primary transition-colors flex items-center;
+}
+
+/* Dropdown icon */
+#main-menu > li.group > a svg {
+  @apply w-4 h-4 ml-1;
+}
+
+/* Dropdown menu */
+#main-menu > li > ul {
+  @apply hidden lg:group-hover:block lg:absolute lg:top-full lg:left-0 lg:mt-2 lg:bg-white lg:border lg:border-slate-200 lg:shadow-lg lg:rounded-lg lg:min-w-[200px] lg:py-2 lg:z-50 flex flex-col space-y-0 mt-2 pl-4 lg:pl-0;
+}
+
+/* Dropdown items */
+#main-menu > li > ul > li > a {
+  @apply block px-4 py-2 text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors;
+}
+
+/* Mobile CTA button */
+#main-menu > li[class*="lg:hidden"] > a {
+  @apply bg-primary hover:bg-secondary text-white px-6 py-3 rounded-full transition-colors inline-flex items-center justify-center gap-2 w-full;
+}
+
+#main-menu > li[class*="lg:hidden"] > a svg {
+  @apply w-5 h-5;
+}
+
+/* Desktop CTA button */
+.nav-cta-wrapper > a {
+  @apply bg-primary hover:bg-secondary text-white px-6 py-3 text-sm rounded-full transition-colors inline-flex items-center gap-2;
+}
+
+.nav-cta-wrapper > a svg {
+  @apply w-5 h-5;
+}
+
